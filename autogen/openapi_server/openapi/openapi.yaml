@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  description: TBA.
+  title: KU PLACE API
+  version: 1.0.0
+servers:
+- url: /rain-api/v1
+paths:
+  /lights:
+    get:
+      operationId: controller_get_sample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TestFromMark'
+                type: array
+          description: Success
+      summary: Returns a list of basins.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /locations/{locationId}:
+    get:
+      operationId: controller_get_building_detail
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildingFull'
+          description: Success
+      summary: Return a name of location with their specific latitude and lontitude.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /securities/{securityId}:
+    get:
+      operationId: controller_get_security_image
+      parameters:
+      - explode: false
+        in: path
+        name: securityId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityImg'
+          description: Success
+      summary: Return a link of specifi security and provide their latitude and lontitude
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  schemas:
+    BasinShort:
+      properties:
+        basinId:
+          type: integer
+        name:
+          type: string
+      type: object
+    BasinFull:
+      properties:
+        basinId:
+          type: integer
+        name:
+          type: string
+        area:
+          description: Total basin area in sq.km
+          type: number
+      type: object
+    StationShort:
+      properties:
+        stationId:
+          type: integer
+        name:
+          type: string
+      type: object
+    StationFull:
+      properties:
+        stationId:
+          type: integer
+        basinId:
+          type: integer
+        name:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+      type: object
+    StationAnual:
+      properties:
+        basin_id:
+          type: integer
+        year:
+          type: integer
+        rainfall:
+          type: number
+      type: object
+    TestFromMark:
+      example:
+        light: 0
+      properties:
+        light:
+          title: light
+          type: integer
+      title: TestFromMark
+      type: object
+    BuildingFull:
+      example:
+        lon: 6.027456183070403
+        building: building
+        lat: 0.8008281904610115
+      properties:
+        building:
+          title: building
+          type: string
+        lat:
+          title: lat
+          type: number
+        lon:
+          description: เดี๋ยวจอมมาใส่
+          title: lon
+          type: number
+      title: BuildingFull
+      type: object
+    SecurityImg:
+      example:
+        img_link: img_link
+        lon: 6.027456183070403
+        lat: 0.8008281904610115
+      properties:
+        img_link:
+          title: img_link
+          type: string
+        lat:
+          title: lat
+          type: number
+        lon:
+          title: lon
+          type: number
+      title: SecurityImg
+      type: object
