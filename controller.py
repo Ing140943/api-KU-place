@@ -78,6 +78,6 @@ def get_average_pm(location_id):
                   FROM PM
                   GROUP BY time, lat, lon, location_id) as pm
                   where kuPlace.id = pm.location_id and kuPlace.id = %s""", [location_id])
-    result = [models.LightLocation(building, lat, lon, t, average_pm) for building, lat, lon, t, average_pm in cs.fetchall()]
+    result = [models.PMAverage(building, lat, lon, t, average_pm) for building, lat, lon, t, average_pm in cs.fetchall()]
     cs.close()
     return result
