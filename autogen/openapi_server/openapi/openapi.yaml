@@ -6,19 +6,25 @@ info:
 servers:
 - url: /rain-api/v1
 paths:
-  /lights:
+  /lightlocation/{locationId}:
     get:
-      operationId: controller_get_sample
+      operationId: controller_get_light_location
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: integer
+        style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/TestFromMark'
-                type: array
+                $ref: '#/components/schemas/LightLocation'
           description: Success
-      summary: Returns a list of basins.
+      summary: Provide the latitude and lontitude of light location
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /locations/{locationId}:
     get:
@@ -39,6 +45,26 @@ paths:
                 $ref: '#/components/schemas/BuildingFull'
           description: Success
       summary: Return a name of location with their specific latitude and lontitude.
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /pmlocation/{locationId}:
+    get:
+      operationId: controller_get_average_pm
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PMAverage'
+          description: Success
+      summary: Provide the latitude and lontitude of light location
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /securities/{securityId}:
     get:
@@ -82,23 +108,6 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   schemas:
-    BasinShort:
-      properties:
-        basinId:
-          type: integer
-        name:
-          type: string
-      type: object
-    BasinFull:
-      properties:
-        basinId:
-          type: integer
-        name:
-          type: string
-        area:
-          description: Total basin area in sq.km
-          type: number
-      type: object
     StationShort:
       properties:
         stationId:
@@ -106,36 +115,10 @@ components:
         name:
           type: string
       type: object
-    StationFull:
-      properties:
-        stationId:
-          type: integer
-        basinId:
-          type: integer
-        name:
-          type: string
-        lat:
-          type: number
-        lon:
-          type: number
-      type: object
-    StationAnual:
-      properties:
-        basin_id:
-          type: integer
-        year:
-          type: integer
-        rainfall:
-          type: number
-      type: object
     TestFromMark:
-      example:
-        light: 0
       properties:
         light:
-          title: light
           type: integer
-      title: TestFromMark
       type: object
     BuildingFull:
       example:
@@ -200,4 +183,54 @@ components:
           title: distance
           type: number
       title: SecurityLocation
+      type: object
+    LightLocation:
+      example:
+        sensor_lat: 0
+        value_light: 1
+        time: time
+        building: building
+        sensor_lon: 6
+      properties:
+        building:
+          title: building
+          type: string
+        sensor_lat:
+          title: sensor_lat
+          type: integer
+        sensor_lon:
+          title: sensor_lon
+          type: integer
+        time:
+          title: time
+          type: string
+        value_light:
+          title: value_light
+          type: integer
+      title: LightLocation
+      type: object
+    PMAverage:
+      example:
+        average_pm: 1
+        lon: 6
+        time: time
+        building: building
+        lat: 0
+      properties:
+        building:
+          title: building
+          type: string
+        lat:
+          title: lat
+          type: integer
+        lon:
+          title: lon
+          type: integer
+        time:
+          title: time
+          type: string
+        average_pm:
+          title: average_pm
+          type: integer
+      title: PMAverage
       type: object

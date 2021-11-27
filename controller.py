@@ -59,74 +59,25 @@ def get_security_location(location_id):
     cs.close()
     return result
 
-def get_basins():
+def get_light_location(location_id):
     cs = db.cursor()
-    cs.execute("SELECT basin_id,ename FROM basin")
-    result = [models.BasinShort(basin_id, name) for basin_id, name in cs.fetchall()]
+    cs.execute("""SELECT kuPlace.building as building, light.lat as sensor_lat, light.lon as sensor_lon, light.time as time_light, light.light_value as value_light
+                  FROM kuPlace INNER JOIN (SELECT location_id, TIMESTAMP(DATE(ts) , CONCAT(hour(ts), ':00:00')) as time, lat, lon, avg(light) as light_value
+                  FROM kuLight
+                  GROUP BY time, lat, lon, location_id) as light
+                  WHERE kuPlace.id = light.location_id and kuPlace.id = %s""", [location_id])
+    result = [models.LightLocation(building, sensor_lat, sensor_lon, time_light, value_light) for building, sensor_lat, sensor_lon, time_light, value_light in cs.fetchall()]
     cs.close()
     return result
 
-
-def get_basin_details(basin_id):
+def get_average_pm(location_id):
     cs = db.cursor()
-    cs.execute("""
-        SELECT basin_id, ename, area
-        FROM basin
-        WHERE basin_id=%s
-        """, [basin_id])
-    result = cs.fetchone()
-    cs.close()
-    if result:
-        basin_id, name, area = result
-        return models.BasinFull(basin_id, name, area)
-    else:
-        abort(404)
-
-
-def get_stations(basin_id):
-    cs = db.cursor()
-    cs.execute("""
-        SELECT station_id, s.ename
-        FROM station s
-        INNER JOIN basin b ON ST_CONTAINS(b.geometry, POINT(s.lon, s.lat))
-        WHERE basin_id=%s
-        """, [basin_id])
-    result = [models.StationShort(station_id, name) for station_id, name in cs.fetchall()]
+    cs.execute("""SELECT kuPlace.building as building, kuPlace.lat as lat, kuPlace.lon as lon, pm.time as t, pm.avg_pm_per_day as average_pm
+                  FROM kuPlace inner join
+                  (SELECT location_id, TIMESTAMP(DATE(ts)) as time, lat, lon, AVG(pm) as avg_pm_per_day
+                  FROM PM
+                  GROUP BY time, lat, lon, location_id) as pm
+                  where kuPlace.id = pm.location_id and kuPlace.id = %s""", [location_id])
+    result = [models.LightLocation(building, lat, lon, t, average_pm) for building, lat, lon, t, average_pm in cs.fetchall()]
     cs.close()
     return result
-
-
-def get_station_details(station_id):
-    cs = db.cursor()
-    cs.execute("""
-        SELECT station_id, basin_id, s.ename, s.lat, s.lon
-        FROM station s
-        INNER JOIN basin b ON ST_CONTAINS(b.geometry, POINT(s.lon, s.lat))
-        WHERE station_id=%s
-        """, [station_id])
-    result = cs.fetchone()
-    cs.close()
-    if result:
-        station_id, basin_id, name, lat, lon = result
-        return models.StationFull(station_id, basin_id, name, lat, lon)
-    else:
-        abort(404)
-
-
-def get_annual_rainfalls(basin_id, year):
-    cs = db.cursor()
-    cs.execute("""
-     SELECT SUM(daily)
-     FROM (
-        SELECT AVG(r.amount) as daily
-        FROM rainfall r
-        INNER JOIN station s ON s.station_id=r.station_id
-        INNER JOIN basin b ON ST_CONTAINS(b.geometry, POINT(s.lon, s.lat))
-        WHERE b.basin_id=%s AND r.year=%s
-        GROUP BY b.basin_id, r.year, r.month, r.day) daily""", [basin_id, year])
-    result = cs.fetchone()
-    cs.close()
-    if result:
-        return models.StationAnual(basin_id, year, result[0])
-    else:
-        abort(404)

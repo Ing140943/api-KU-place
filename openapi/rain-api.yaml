@@ -58,40 +58,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityLocation'
-  /lights:
+  /lightlocation/{locationId}:
+    parameters:
+      - name: locationId
+        in: path
+        required: true
+        schema:
+          type: integer
     get:
-      summary: Returns a list of basins.
-      operationId: controller.get_sample
+      summary: Provide the latitude and lontitude of light location
+      operationId: controller.get_light_location
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TestFromMark'
+                $ref: '#/components/schemas/LightLocation'
 
+  /pmlocation/{locationId}:
+    parameters:
+      - name: locationId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Provide the latitude and lontitude of light location
+      operationId: controller.get_average_pm
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PMAverage'
 
 components:
   schemas:
-    BasinShort:
-      type: object
-      properties:
-        basinId:
-          type: integer
-        name:
-          type: string
-    BasinFull:
-      type: object
-      properties:
-        basinId:
-          type: integer
-        name:
-          type: string
-        area:
-          type: number
-          description: Total basin area in sq.km
     StationShort:
       type: object
       properties:
@@ -99,28 +103,6 @@ components:
           type: integer
         name:
           type: string
-    StationFull:
-      type: object
-      properties:
-        stationId:
-          type: integer
-        basinId:
-          type: integer
-        name:
-          type: string
-        lat:
-          type: number
-        lon:
-          type: number
-    StationAnual:
-      type: object
-      properties:
-        basin_id:
-          type: integer
-        year:
-          type: integer
-        rainfall:
-          type: number
     TestFromMark:
       type: object
       properties:
@@ -160,4 +142,31 @@ components:
           type: number
         distance:
           type: number
+    LightLocation:
+      type: object
+      properties:
+        building:
+          type: string
+        sensor_lat:
+          type: integer
+        sensor_lon:
+          type: integer
+        time:
+          type: string
+        value_light:
+          type: integer
+    PMAverage:
+      type: object
+      properties:
+        building:
+          type: string
+        lat:
+          type: integer
+        lon:
+          type: integer
+        time:
+          type: string
+        average_pm:
+          type: integer
+
 
