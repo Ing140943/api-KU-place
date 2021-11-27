@@ -84,7 +84,7 @@ paths:
         schema:
           type: integer
     get:
-      summary: Provide the latitude and lontitude of light location
+      summary: Provide the average pm
       operationId: controller.get_average_pm
       responses:
         200:
