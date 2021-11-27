@@ -41,6 +41,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityImg'
+  /securitylocation/{locationId}:
+    parameters:
+      - name: locationId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Provide the nearby light location and security location
+      operationId: controller.get_security_location
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityLocation'
   /lights:
     get:
       summary: Returns a list of basins.
@@ -122,6 +139,19 @@ components:
     SecurityImg:
       type: object
       properties:
+        img_link:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+    SecurityLocation:
+      type: object
+      properties:
+        location_id:
+          type: integer
+        security_id:
+          type: integer
         img_link:
           type: string
         lat:

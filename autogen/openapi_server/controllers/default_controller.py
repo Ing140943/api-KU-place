@@ -3,6 +3,7 @@ import six
 
 from openapi_server.models.building_full import BuildingFull  # noqa: E501
 from openapi_server.models.security_img import SecurityImg  # noqa: E501
+from openapi_server.models.security_location import SecurityLocation  # noqa: E501
 from openapi_server.models.test_from_mark import TestFromMark  # noqa: E501
 from openapi_server import util
 
@@ -40,5 +41,18 @@ def controller_get_security_image(security_id):  # noqa: E501
     :type security_id: int
 
     :rtype: SecurityImg
+    """
+    return 'do some magic!'
+
+
+def controller_get_security_location(location_id):  # noqa: E501
+    """Provide the nearby light location and security location
+
+     # noqa: E501
+
+    :param location_id: 
+    :type location_id: int
+
+    :rtype: SecurityLocation
     """
     return 'do some magic!'

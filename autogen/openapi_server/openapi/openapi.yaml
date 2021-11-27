@@ -60,6 +60,26 @@ paths:
           description: Success
       summary: Return a link of specifi security and provide their latitude and lontitude
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /securitylocation/{locationId}:
+    get:
+      operationId: controller_get_security_location
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityLocation'
+          description: Success
+      summary: Provide the nearby light location and security location
+      x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   schemas:
     BasinShort:
@@ -151,4 +171,29 @@ components:
           title: lon
           type: number
       title: SecurityImg
+      type: object
+    SecurityLocation:
+      example:
+        img_link: img_link
+        lon: 5.962133916683182
+        location_id: 0
+        security_id: 6
+        lat: 1.4658129805029452
+      properties:
+        location_id:
+          title: location_id
+          type: integer
+        security_id:
+          title: security_id
+          type: integer
+        img_link:
+          title: img_link
+          type: string
+        lat:
+          title: lat
+          type: number
+        lon:
+          title: lon
+          type: number
+      title: SecurityLocation
       type: object
