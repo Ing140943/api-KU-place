@@ -50,12 +50,12 @@ def get_security_image(security_id):
 
 def get_security_location(location_id):
     cs = db.cursor()
-    cs.execute("""SELECT p.id, building, security_id as security_post_id, img_link, s.lat,s.lon,distance
+    cs.execute("""SELECT building, security_id as security_post_id, img_link, s.lat as lat, s.lon as lon,distance
                   FROM kuPlace as p inner join kuSecurity as s
                   on s.location_id = p.id
                   where p.id = %s
                   ORDER BY p.id""", [location_id])
-    result = [models.SecurityLocation(location_id, name) for location_id, name in cs.fetchall()]
+    result = [models.SecurityLocation(building, security_post_id, img_link, lat, lon, distance) for building, security_post_id, img_link, lat, lon, distance in cs.fetchall()]
     cs.close()
     return result
 

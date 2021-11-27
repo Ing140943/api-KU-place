@@ -148,8 +148,8 @@ components:
     SecurityLocation:
       type: object
       properties:
-        location_id:
-          type: integer
+        building:
+          type: string
         security_id:
           type: integer
         img_link:
@@ -157,5 +157,7 @@ components:
         lat:
           type: number
         lon:
+          type: number
+        distance:
           type: number
 

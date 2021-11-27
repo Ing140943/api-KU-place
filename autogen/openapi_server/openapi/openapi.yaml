@@ -174,15 +174,16 @@ components:
       type: object
     SecurityLocation:
       example:
+        distance: 5.962133916683182
         img_link: img_link
-        lon: 5.962133916683182
-        location_id: 0
-        security_id: 6
-        lat: 1.4658129805029452
+        lon: 1.4658129805029452
+        building: building
+        security_id: 0
+        lat: 6.027456183070403
       properties:
-        location_id:
-          title: location_id
-          type: integer
+        building:
+          title: building
+          type: string
         security_id:
           title: security_id
           type: integer
@@ -194,6 +195,9 @@ components:
           type: number
         lon:
           title: lon
+          type: number
+        distance:
+          title: distance
           type: number
       title: SecurityLocation
       type: object

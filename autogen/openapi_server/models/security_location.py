@@ -15,11 +15,11 @@ class SecurityLocation(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, location_id=None, security_id=None, img_link=None, lat=None, lon=None):  # noqa: E501
+    def __init__(self, building=None, security_id=None, img_link=None, lat=None, lon=None, distance=None):  # noqa: E501
         """SecurityLocation - a model defined in OpenAPI
 
-        :param location_id: The location_id of this SecurityLocation.  # noqa: E501
-        :type location_id: int
+        :param building: The building of this SecurityLocation.  # noqa: E501
+        :type building: str
         :param security_id: The security_id of this SecurityLocation.  # noqa: E501
         :type security_id: int
         :param img_link: The img_link of this SecurityLocation.  # noqa: E501
@@ -28,28 +28,33 @@ class SecurityLocation(Model):
         :type lat: float
         :param lon: The lon of this SecurityLocation.  # noqa: E501
         :type lon: float
+        :param distance: The distance of this SecurityLocation.  # noqa: E501
+        :type distance: float
         """
         self.openapi_types = {
-            'location_id': int,
+            'building': str,
             'security_id': int,
             'img_link': str,
             'lat': float,
-            'lon': float
+            'lon': float,
+            'distance': float
         }
 
         self.attribute_map = {
-            'location_id': 'location_id',
+            'building': 'building',
             'security_id': 'security_id',
             'img_link': 'img_link',
             'lat': 'lat',
-            'lon': 'lon'
+            'lon': 'lon',
+            'distance': 'distance'
         }
 
-        self._location_id = location_id
+        self._building = building
         self._security_id = security_id
         self._img_link = img_link
         self._lat = lat
         self._lon = lon
+        self._distance = distance
 
     @classmethod
     def from_dict(cls, dikt) -> 'SecurityLocation':
@@ -63,25 +68,25 @@ class SecurityLocation(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def location_id(self):
-        """Gets the location_id of this SecurityLocation.
+    def building(self):
+        """Gets the building of this SecurityLocation.
 
 
-        :return: The location_id of this SecurityLocation.
-        :rtype: int
+        :return: The building of this SecurityLocation.
+        :rtype: str
         """
-        return self._location_id
+        return self._building
 
-    @location_id.setter
-    def location_id(self, location_id):
-        """Sets the location_id of this SecurityLocation.
+    @building.setter
+    def building(self, building):
+        """Sets the building of this SecurityLocation.
 
 
-        :param location_id: The location_id of this SecurityLocation.
-        :type location_id: int
+        :param building: The building of this SecurityLocation.
+        :type building: str
         """
 
-        self._location_id = location_id
+        self._building = building
 
     @property
     def security_id(self):
@@ -166,3 +171,24 @@ class SecurityLocation(Model):
         """
 
         self._lon = lon
+
+    @property
+    def distance(self):
+        """Gets the distance of this SecurityLocation.
+
+
+        :return: The distance of this SecurityLocation.
+        :rtype: float
+        """
+        return self._distance
+
+    @distance.setter
+    def distance(self, distance):
+        """Sets the distance of this SecurityLocation.
+
+
+        :param distance: The distance of this SecurityLocation.
+        :type distance: float
+        """
+
+        self._distance = distance
