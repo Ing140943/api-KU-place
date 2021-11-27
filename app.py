@@ -15,7 +15,7 @@ if not os.path.exists(OPENAPI_AUTOGEN_DIR):
     print()
     print("  "
           "java -jar openapi-generator-cli-4.3.1.jar generate \\\n"
-          "     -i openapi/rain-api.yaml \\\n"
+          "     -i openapi/ku-place-api.yaml \\\n"
           "     -o {} -g python-flask".format(OPENAPI_AUTOGEN_DIR))
     print()
     exit(1)
@@ -35,7 +35,7 @@ from openapi_server import encoder
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
-    app.add_api('rain-api.yaml',
+    app.add_api('ku-place-api.yaml',
                 arguments={'title': 'Chaopraya Rainfalls API'},
                 pythonic_params=True)
 
