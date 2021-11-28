@@ -5,7 +5,7 @@ info:
     TBA.
   version: 1.0.0
 servers:
-- url: /rain-api/v1
+- url: /ku-place
 paths:
   /locations/{locationId}:
     parameters:

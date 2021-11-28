@@ -4,7 +4,7 @@ info:
   title: KU PLACE API
   version: 1.0.0
 servers:
-- url: /rain-api/v1
+- url: /ku-place
 paths:
   /lightlocation/{locationId}:
     get:

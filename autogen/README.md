@@ -21,13 +21,13 @@ python3 -m openapi_server
 and open your browser to here:
 
 ```
-http://localhost:8080/rain-api/v1/ui/
+http://localhost:8080/ku-place/ui/
 ```
 
 Your OpenAPI definition lives here:
 
 ```
-http://localhost:8080/rain-api/v1/openapi.json
+http://localhost:8080/ku-place/openapi.json
 ```
 
 To launch the integration tests, use tox:
