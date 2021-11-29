@@ -39,7 +39,7 @@ def main():
                 arguments={'title': 'Chaopraya Rainfalls API'},
                 pythonic_params=True)
 
-    app.run(port=8080, debug=True)
+    app.run(port=8080, debug=True, host="https://kuplace.herokuapp.com/")
 
 
 if __name__ == '__main__':
