@@ -1,0 +1,1 @@
+web: gunicorn api-ku-place-deploy:app
