@@ -1,3 +1,2 @@
 -r autogen/requirements.txt
 PyMySQL
-python==3.8.0
